@@ -9,6 +9,10 @@ const router = Router();
 
 router.post("/create", validator(CreateUserSchema), createUser);
 
-router.post("/login", async (req, res) => {});
+router.post("/login", async (req, res) => {
+  try {
+    const { email, password } = req.body;
+  } catch (error) {}
+});
 
 export default router;
