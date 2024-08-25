@@ -1,18 +1,33 @@
-import { CreateUserRequest } from "@/@types/user";
-import { createUser } from "@/controller/user";
+import {
+  createUser,
+  login,
+  reSendVerificationToken,
+  resetPassword,
+  userVerification,
+  logout,
+  updatePassword,
+} from "@/controller/user";
+import { isAuthorized, isUserVerified } from "@/middleware/auth";
 import { validator } from "@/middleware/validator";
-import User from "@/models/User";
-import { CreateUserSchema } from "@/utils/validationSchema";
+import {
+  CreateUserSchema,
+  LoginSchema,
+  VerificationSchema,
+} from "@/utils/validationSchema";
 import { Router } from "express";
 
 const router = Router();
 
-router.post("/create", validator(CreateUserSchema), createUser);
-
-router.post("/login", async (req, res) => {
-  try {
-    const { email, password } = req.body;
-  } catch (error) {}
-});
-
+router.post("/register", validator(CreateUserSchema), createUser);
+router.get("/verify/:token", userVerification);
+// isUserVerified,
+router.post("/login", validator(LoginSchema), login);
+router.post("/reset-password", validator(VerificationSchema), resetPassword);
+router.post(
+  "/re-send-verification-token",
+  validator(VerificationSchema),
+  reSendVerificationToken
+);
+router.post("/update-password", validator(CreateUserSchema), updatePassword);
+router.post("/logout", isAuthorized, logout);
 export default router;

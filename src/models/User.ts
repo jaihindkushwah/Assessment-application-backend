@@ -1,6 +1,6 @@
 import { Model, model, Schema } from "mongoose";
 
-interface UserDocument {
+export interface UserDocument {
   name: string;
   email: string;
   password: string;
@@ -8,6 +8,7 @@ interface UserDocument {
   avatar?: { url: string; publicId: string };
   tokens: string[];
   role: "user" | "admin";
+  verificationToken: string;
 }
 
 const userSchema = new Schema<UserDocument>(
@@ -21,6 +22,8 @@ const userSchema = new Schema<UserDocument>(
       type: String,
       required: true,
       unique: true,
+      trim: true,
+      transform: (email: string) => email.toLowerCase(),
     },
     password: {
       type: String,
@@ -40,6 +43,9 @@ const userSchema = new Schema<UserDocument>(
       default: "user",
     },
     tokens: [String],
+    verificationToken: {
+      type: String,
+    },
   },
   { timestamps: true }
 );
