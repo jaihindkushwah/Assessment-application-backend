@@ -16,7 +16,7 @@ export const validator = (schema: any): RequestHandler => {
       next();
     } catch (error) {
       if (error instanceof yup.ValidationError) {
-        return res.status(422).json({ error: error.errors });
+        return res.status(422).json({ error: error.message });
       }
     }
   };
