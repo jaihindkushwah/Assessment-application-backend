@@ -1,5 +1,10 @@
 import { Model, model, Schema } from "mongoose";
 
+enum ERoleType {
+  User = "user",
+  Admin = "admin",
+}
+
 export interface UserDocument {
   name: string;
   email: string;
@@ -7,7 +12,7 @@ export interface UserDocument {
   verified: boolean;
   avatar?: { url: string; publicId: string };
   tokens: string[];
-  role: "user" | "admin";
+  role: ERoleType;
   verificationToken: string;
 }
 
@@ -23,7 +28,7 @@ const userSchema = new Schema<UserDocument>(
       required: true,
       unique: true,
       trim: true,
-      transform: (email: string) => email.toLowerCase(),
+      lowercase: true,
     },
     password: {
       type: String,
@@ -40,7 +45,8 @@ const userSchema = new Schema<UserDocument>(
     },
     role: {
       type: String,
-      default: "user",
+      default: ERoleType.User,
+      enum: Object.values(ERoleType),
     },
     tokens: [String],
     verificationToken: {

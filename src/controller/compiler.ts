@@ -2,6 +2,8 @@ import { RequestHandler } from "express";
 import Axios from "axios";
 import { programmingLanguage } from "@/@types/compile";
 import { supportedLanguage } from "@/utils/supportedLanguage";
+import DsaProblemSubmission from "@/models/DsaSubmission";
+import DsaProblem from "@/models/DsaProblem";
 
 // GET  list of supported programming languages
 // https://emkc.org/api/v2/piston/runtimes
@@ -11,11 +13,11 @@ import { supportedLanguage } from "@/utils/supportedLanguage";
 
 export const testDsaProblem: RequestHandler = async (req, res) => {
   try {
-    console.log("user input", req.user);
-    const { code, input, language } = req.body;
+    // console.log("user input", req.user);
+    const { code, input, language, problemId } = req.body;
     const response = await compiler(code, language, input);
     const output = await response;
-    res.status(200).json({ output });
+    res.status(200).json({ ...output });
   } catch (error: any) {
     res.status(500).json({ error: error.message });
   }
@@ -23,12 +25,26 @@ export const testDsaProblem: RequestHandler = async (req, res) => {
 export const submitDsaProblem: RequestHandler = async (req, res) => {
   try {
     // and also accept start time and end time so that we can calculate the time taken by user or total time
-    const { code, input, language } = req.body;
+    if (!req.user?.id) {
+      return res.status(500).json({ error: "Please login first" });
+    }
+    const { code, input, language, problemId } = req.body;
+    const findDsa = await DsaProblem.findOne({ _id: problemId });
     const response = await compiler(code, language, input);
+    console.log("response", req.body);
+    if (findDsa) {
+      const submission = new DsaProblemSubmission({
+        problemId,
+        code,
+        language,
+        status: "solved",
+        userId: req.user?.id,
+      });
+      await submission.save();
+      return res.status(200).json({ submission });
+    }
 
-    // save to database
-    // test results save in database with no of attempts on the basis of that deducts marks
-
+    console.log("submission", findDsa);
     const output = await response;
     res.status(200).json({ output });
   } catch (error: any) {

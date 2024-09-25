@@ -1,3 +1,4 @@
+import { googleLogin } from "@/controller/google";
 import {
   createUser,
   login,
@@ -18,6 +19,7 @@ import { Router } from "express";
 
 const router = Router();
 
+router.post("/google", googleLogin);
 router.post("/register", validator(CreateUserSchema), createUser);
 router.get("/verify/:token", userVerification);
 // isUserVerified,
@@ -29,5 +31,5 @@ router.post(
   reSendVerificationToken
 );
 router.post("/update-password", validator(CreateUserSchema), updatePassword);
-router.post("/logout", isAuthorized, logout);
+router.get("/logout", isAuthorized, logout);
 export default router;

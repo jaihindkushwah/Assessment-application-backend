@@ -1,10 +1,12 @@
-import { updateProfilePic } from "@/controller/profile";
+import { getProfile, updateProfilePic } from "@/controller/profile";
 import { isAuthorized } from "@/middleware/auth";
 import { validator } from "@/middleware/validator";
 import { UpdateProfilePic } from "@/utils/validationSchema";
 import { Router } from "express";
 
 const router = Router();
+
+router.get("/", isAuthorized, getProfile);
 
 router.patch(
   "/update-profile-pic",

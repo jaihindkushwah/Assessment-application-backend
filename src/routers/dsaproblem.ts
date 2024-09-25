@@ -1,14 +1,22 @@
-import { createBulkProblems, createProblem } from "@/controller/dsaproblems";
+import {
+  createProblem,
+  getAllProblem,
+  getProblemById,
+} from "@/controller/dsaproblems";
+import { isAuthorized } from "@/middleware/auth";
+import { validator } from "@/middleware/validator";
+import { DsaProblemSchema } from "@/utils/validationSchema";
 import { Router } from "express";
 
 const router = Router();
 
-// router.get('/get/:quizId',getDsaProblem);
-
-router.post("/create", createProblem);
-router.post("/bulkUpload", createBulkProblems);
-router.get("/get", createBulkProblems);
-router.delete("/delete/:deleteId", createBulkProblems);
-router.put("/update/:updateId", createBulkProblems);
+router.post(
+  "/create",
+  isAuthorized,
+  validator(DsaProblemSchema),
+  createProblem
+);
+router.get("/get/:id", getProblemById);
+router.get("/getAll", isAuthorized, getAllProblem);
 
 export default router;

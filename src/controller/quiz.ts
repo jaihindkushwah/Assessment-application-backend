@@ -82,3 +82,15 @@ export const getAssessmentQuizList: RequestHandler = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
+export const updateQuiz: RequestHandler = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const {} = req.body;
+    const question = await AssessmentQuestion.findByIdAndUpdate(id, {
+      ...req.body,
+    });
+    return res.status(200).json({ data: question });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
