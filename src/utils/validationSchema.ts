@@ -56,4 +56,15 @@ export const CompilerSchema = yup.object().shape({
   code: yup.string().trim().required("Code is required"),
   language: yup.string().trim().required("Language is required"),
   input: yup.string().trim(),
+  problemId: yup.string().trim().required("problemId is required"),
+});
+
+export const DsaProblemSchema = yup.object().shape({
+  title: yup.string().trim().required("title is required"),
+  difficulty: yup.string().trim().required("difficulty is required"),
+  content: yup.object().required("content is required"),
+  testCases: yup.array().of(yup.string().trim()),
+  defaultTestCases: yup.array().of(yup.string().trim()),
+  codeSnippet: yup.string().trim(),
+  code: yup.string().trim(),
 });

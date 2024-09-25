@@ -36,9 +36,10 @@ export const isAuthorized: RequestHandler = async (req, res, next) => {
     req.user = {
       id: user._id,
       email: user.email,
-      avatar: user.avatar?.url,
+      avatar: user.avatar,
       verified: user.verified,
       name: user.name,
+      role: user.role,
     };
     req.token = token;
     next();

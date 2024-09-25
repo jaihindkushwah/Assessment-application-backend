@@ -7,6 +7,11 @@ import { Router } from "express";
 const router = Router();
 
 router.post("/test", isAuthorized, validator(CompilerSchema), testDsaProblem);
-router.post("/submit", validator(CompilerSchema), submitDsaProblem);
+router.post(
+  "/submit",
+  isAuthorized,
+  validator(CompilerSchema),
+  submitDsaProblem
+);
 
 export default router;

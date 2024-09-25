@@ -8,7 +8,8 @@ declare global {
         name: string;
         email: string;
         verified: boolean;
-        avatar?: string;
+        avatar?: { url: string; publicId: string };
+        role: "user" | "admin";
       };
       token?: string;
     }

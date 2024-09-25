@@ -88,6 +88,7 @@ const login: RequestHandler = async (req, res) => {
     const { email, password } = req.body as { email: string; password: string };
 
     const user = await User.findOne({ email: email.toLowerCase() });
+    console.log(email);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -106,8 +107,10 @@ const login: RequestHandler = async (req, res) => {
       name: user.name,
       email: user.email,
       role: user.role,
-      avatar: user.avatar,
+      avatar: user.avatar?.url,
       id: user._id,
+      verified: user.verified,
+      avatarId: user.avatar?.publicId,
     };
     if (user.tokens.length > 3) {
       user.tokens.shift();
@@ -125,7 +128,8 @@ const login: RequestHandler = async (req, res) => {
 
 const logout: RequestHandler = async (req, res) => {
   try {
-    const { email, token } = req.body;
+    const email = req.user?.email;
+    const token = req.token;
     const user = await User.findOne({ email });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
