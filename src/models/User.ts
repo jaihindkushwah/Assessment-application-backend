@@ -1,11 +1,11 @@
-import { Model, model, Schema } from "mongoose";
+import { Document, Model, model, Schema } from "mongoose";
 
 enum ERoleType {
   User = "user",
   Admin = "admin",
 }
 
-export interface UserDocument {
+export interface UserDocument extends Document {
   name: string;
   email: string;
   password: string;

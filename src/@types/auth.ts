@@ -29,6 +29,9 @@ export interface LoginUser extends Request {
     password: string;
   };
 }
+export interface GoogleLogin extends Request {
+  body: { googleToken: string };
+}
 export interface VerifyEmailRequest extends Request {
   body: {
     userId: string;

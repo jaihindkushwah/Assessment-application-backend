@@ -69,19 +69,19 @@ export const createQuizBulkUpload: RequestHandler = async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 };
-// export const getAssessmentQuizList: RequestHandler = async (req, res) => {
-//   try {
-//     const createBy = req.user?.id;
-//     // const questions = await AssessmentQuestion.find({ createBy });
-//     const questions = await AssessmentQuestion.aggregate([
-//       { $match: { createBy } }, // Filter by createBy field
-//       { $sample: { size: 10 } }, // Randomly sample 10 documents
-//     ]);
-//     return res.status(200).json({ data: questions });
-//   } catch (error: any) {
-//     res.status(500).json({ error: error.message });
-//   }
-// };
+export const getAssessmentQuizList: RequestHandler = async (req, res) => {
+  try {
+    const createBy = req.user?.id;
+    // const questions = await AssessmentQuestion.find({ createBy });
+    const questions = await AssessmentQuestion.aggregate([
+      { $match: { createBy } }, // Filter by createBy field
+      { $sample: { size: 10 } }, // Randomly sample 10 documents
+    ]);
+    return res.status(200).json({ data: questions });
+  } catch (error: any) {
+    res.status(500).json({ error: error.message });
+  }
+};
 // export const updateQuiz: RequestHandler = async (req, res) => {
 //   try {
 //     const { id } = req.params;

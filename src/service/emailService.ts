@@ -7,6 +7,30 @@ interface EmailOptions {
   text?: string;
   html?: string;
 }
+
+class EmailService {
+  public async sendEmail({ to, subject, text, html }: EmailOptions) {
+    const transporter = nodemailer.createTransport({
+      host: "sandbox.smtp.mailtrap.io",
+      port: 2525,
+      auth: {
+        user: MAIL_USERNAME,
+        pass: MAIL_PASSWORD,
+      },
+    });
+    const mailOptions = {
+      from: MAIL_ID,
+      to: to,
+      subject: subject ? subject : "Email verification",
+      html: html,
+      text: text,
+    };
+    await transporter.sendMail(mailOptions);
+  }
+}
+
+export default EmailService;
+
 export const emailSender = async ({
   to,
   subject,
