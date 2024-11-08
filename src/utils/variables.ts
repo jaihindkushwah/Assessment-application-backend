@@ -12,3 +12,4 @@ export const MAIL_ID = env.MAIL_ID;
 export const AUTH_JWT_EXPIRE = env.AUTH_JWT_EXPIRE;
 export const VERIFICATION_JWT_EXPIRE = env.VERIFICATION_JWT_EXPIRE;
 export const AUTH_BASE_URL = env.AUTH_BASE_URL;
+export const GOOGLE_CLIENT_ID = env.GOOGLE_ID;

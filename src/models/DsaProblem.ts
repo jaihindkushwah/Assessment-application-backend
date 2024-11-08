@@ -1,4 +1,4 @@
-import { Model, model, ObjectId, Schema } from "mongoose";
+import { Document, Model, model, ObjectId, Schema } from "mongoose";
 
 enum EDifficultyType {
   Easy = "Easy",
@@ -7,7 +7,7 @@ enum EDifficultyType {
   Advance = "Advance",
 }
 
-export interface DsaProblemDocument {
+export interface DsaProblemDocument extends Document {
   title: string;
   difficulty: EDifficultyType;
   content: string;
